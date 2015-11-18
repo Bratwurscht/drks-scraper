@@ -12,17 +12,17 @@ def main():
     for i in range(1, count):
         scraped_url = "http://drks-neu.uniklinik-freiburg.de/drks_web/navigate.do?navigationId=trial.HTML&TRIAL_ID=DRKS" + str(i).zfill(8)
         website = requests.get(scraped_url).text.encode('utf-8')
-        website = website.split('\n')
+        # website = website.split('\n')
         my_scraper = Scraper()
-        for i in range(0, len(website)):
-            my_scraper.feed(website[i])
-            my_trials = Trials()
-            print(i, website[i], my_scraper.data)
-            if not my_scraper.data:
+        my_scraper.feed(website)
+        print(my_scraper.list)
+        for i in range(0, len(my_scraper.list)):
+            my_scraper.list[i]=my_scraper.list[i].strip()
+            if not my_scraper.list[i]:
                 continue
-            elif my_scraper.data == "DRKS-ID":
-                my_scraper.feed(website[i+1])
-                my_trials.trial_id = my_scraper.data
+            else:
+                print(my_scraper.list[i])
+
 
 if __name__ == "__main__":
     main()
