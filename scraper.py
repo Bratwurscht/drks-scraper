@@ -2,9 +2,11 @@ from HTMLParser import HTMLParser
 
 
 class Scraper(HTMLParser):
-    def handle_data (self, data):
-        data = data.strip()
-        print(data)
+    def error(self, message):
+        pass
+
+    def handle_data(self, data):
+        self.data = data.strip()
 
 
 
