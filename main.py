@@ -123,10 +123,60 @@ def main():
                     else:
                         my_trials.locations_recruitment += my_scraper.list[j].strip()
                     j += 1
-
+            elif my_scraper.list[j] == "Recruitment":
+                # interestingly information is given as 1:1 although html-format behaves like 1:n
+                j += 1
+                while my_scraper.list[j] != "end of 1:1-Block recruitment":
+                    if my_scraper.list[j+1][-1] == ":" and my_trials.recruitment:
+                        my_trials.recruitment += my_scraper.list[j]
+                    else:
+                        my_trials.recruitment += my_scraper.list[j].strip()
+                    j += 1
+            elif my_scraper.list[j] == "Inclusion Criteria":
+                j += 1
+                while my_scraper.list[j] != "end of 1:1-Block inclusion criteria":
+                    if my_scraper.list[j+1][-1] == ":" and my_trials.criteria_inclusion:
+                        my_trials.criteria_inclusion += my_scraper.list[j]
+                    else:
+                        my_trials.criteria_inclusion += my_scraper.list[j].strip()
+                    j += 1
+            elif my_scraper.list[j] == "Additional Inclusion Criteria":
+                # no separator used, one-line variable --> manchmal ja manchmal nein
+                j += 1
+                while my_scraper.list[j] != "end of 1:1-Block inclusion criteria add":
+                    if (my_scraper.list[j+1][0] == "-" or my_scraper.list[j+1][0] == "*") and my_trials.criteria_inclusion_add:
+                        my_trials.criteria_inclusion_add += "\n" + my_scraper.list[j].strip()
+                    else:
+                        my_trials.criteria_inclusion_add += my_scraper.list[j].strip()
+                    j += 1
+            elif my_scraper.list[j] == "Exclusion Criteria":
+                # no separator used, one-line variable --> manchmal ja manchmal nein
+                j += 1
+                while my_scraper.list[j] != "end of 1:1-Block exclusion criteria":
+                    if (my_scraper.list[j+1][0] == "-" or my_scraper.list[j+1][0] == "*") and my_trials.criteria_exclusion:
+                        my_trials.criteria_exclusion += "\n" + my_scraper.list[j].strip()
+                    else:
+                        my_trials.criteria_exclusion += my_scraper.list[j].strip()
+                    j += 1
+            elif my_scraper.list[j] == "Primary Sponsor":
+                while my_scraper.list[j] != "end of 1:1-Block address primary-sponsor":
+                    pass
             else:
                 # print(my_scraper.list[j])
                 pass
+
+        print(vars(my_trials))
+
+
+def one_to_n_relationship():
+    # generalize function for cleaner code
+    pass
+
+
+def one_to_one_relationship():
+    # generalize function for cleaner code
+    pass
+
 
 if __name__ == "__main__":
     main()

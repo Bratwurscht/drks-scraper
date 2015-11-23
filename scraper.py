@@ -11,6 +11,7 @@ class Scraper(HTMLParser):
         pass
 
     def handle_data(self, data):
+        print(data)
         self.list.append(data)
 
 
