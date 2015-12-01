@@ -21,10 +21,19 @@ class Database():
                 sql += unicode(key + ", ")
         sql += ") VALUES ("
         for key in keys:
-            sql += unicode('"' + data.val[key].encode('utf-8') + '"', errors='ignore')
+            escaped_key = unicode(data.val[key].encode('utf-8'), errors='ignore')
+            sql += unicode('"' + MySQLdb.escape_string(escaped_key) + '"')
             if key != keys[-1]:
                 sql += unicode(', ')
         sql += unicode(')')
 
         self.db_cursor.execute(sql)
         self.db.commit()
+
+    @staticmethod
+    def escape_special_characters(text):
+        special_characters = ["'", '"', "%"]
+        for character in special_characters:
+            print(character, unicode("\\" + character))
+            text = text.replace(character, unicode('\\' + character))
+        return text
