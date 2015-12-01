@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import requests
-from trials import Trials
-from bs4 import BeautifulSoup
-from database import Database
 import sys
+from bs4 import BeautifulSoup
+from trials import Trials
+from database import Database
+from config import Config
 
 
 # count = 99999999
 count = 100000
 
-
 def main():
-    db = Database()
+    conf = Config()
+    db = Database(conf.address, conf.username, conf.password, conf.database_name)
+
     for i in range(0, count):
         scraped_url = "http://drks-neu.uniklinik-freiburg.de/drks_web/navigate.do?navigationId=trial.HTML&TRIAL_ID=DRKS" + str(i).zfill(8)
         request = requests.get(scraped_url, stream=True)

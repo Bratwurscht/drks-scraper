@@ -1,14 +1,15 @@
- # -- coding: utf-8 --
+# -- coding: utf-8 --
 
 import MySQLdb
 
 
 class Database():
-    def __init__(self):
-        self.db = MySQLdb.connect("localhost", "root", "admin", "drks")
+    def __init__(self, address, username, password, db_name):
+        self.db = MySQLdb.connect(address, username, password, db_name)
         self.db_cursor = self.db.cursor()
         self.db_cursor.execute('DROP TABLE data')
-        self.db_cursor.execute('CREATE TABLE data(trial_title LONGTEXT, trial_acronym LONGTEXT,trial_url LONGTEXT,summary_lay LONGTEXT,summary_sci LONGTEXT,org_data LONGTEXT,secondary_id LONGTEXT,health_condition LONGTEXT,characteristics LONGTEXT,outcome_primary LONGTEXT,outcome_secondary LONGTEXT,recruitment_countries LONGTEXT,recruitment_locations LONGTEXT,recruitment LONGTEXT,criteria_inclusion LONGTEXT,criteria_inclusion_add LONGTEXT,criteria_exclusion LONGTEXT)')
+        self.db_cursor.execute(
+            'CREATE TABLE data(trial_title LONGTEXT, trial_acronym LONGTEXT,trial_url LONGTEXT,summary_lay LONGTEXT,summary_sci LONGTEXT,org_data LONGTEXT,secondary_id LONGTEXT,health_condition LONGTEXT,characteristics LONGTEXT,outcome_primary LONGTEXT,outcome_secondary LONGTEXT,recruitment_countries LONGTEXT,recruitment_locations LONGTEXT,recruitment LONGTEXT,criteria_inclusion LONGTEXT,criteria_inclusion_add LONGTEXT,criteria_exclusion LONGTEXT)')
 
     def insert_data(self, data):
         keys = data.val.keys()
