@@ -127,3 +127,4 @@ class Trials:
             else:
                 result += tag.get_text(strip=True).replace('\t', "") + "\n"
         return result
+
